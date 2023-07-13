@@ -1,6 +1,6 @@
 //import { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js";
-import {Elements} from "@stripe/react-stripe-js"
+import { Elements, CardElement } from "@stripe/react-stripe-js";
 import "./App.css";
 
 const stripePromise = loadStripe(
@@ -8,15 +8,26 @@ const stripePromise = loadStripe(
 ); //key public in front
 
 const CheckoutForm = () => {
-  return <form></form>
-}
+  //stripe cards test //number card for test
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <CardElement />
+      <button>Buy</button>
+    </form>
+  );
+};
 
 function App() {
   return (
     <>
-   <Elements stripe={stripePromise}>
-   <CheckoutForm/>
-   </Elements>
+      <Elements stripe={stripePromise}>
+        <CheckoutForm />
+      </Elements>
     </>
   );
 }
