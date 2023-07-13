@@ -1,6 +1,11 @@
 //import { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe } from "@stripe/react-stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import "./App.css";
 
 const stripePromise = loadStripe(
@@ -11,10 +16,16 @@ const CheckoutForm = () => {
   //stripe cards test //number card for test
 
   //Hook return conection with stripe
-  const stripe = useStripe()
+  const stripe = useStripe();
+  const elements = useElements(); //hook que accede a los elements de stripe//manipula lo que viene de stripe
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    //desde el objeto stripe creo un nuevo metodo de pago
+    const { error, paymentMethod } = await stripe.createPaymentMethod({ //puedes recibir un error o  paymentMethod
+      type: "card", //tipo tarjeta
+      card: elements.getElement(CardElement), //de todos los elements de stripe obtengo o llamo a CardElement
+    });
   };
 
   return (
