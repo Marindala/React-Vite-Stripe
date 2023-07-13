@@ -1,6 +1,6 @@
 //import { useState } from 'react'
 import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement } from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe } from "@stripe/react-stripe-js";
 import "./App.css";
 
 const stripePromise = loadStripe(
@@ -9,6 +9,9 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
   //stripe cards test //number card for test
+
+  //Hook return conection with stripe
+  const stripe = useStripe()
 
   const handleSubmit = (e) => {
     e.preventDefault();
