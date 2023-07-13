@@ -6,6 +6,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import "bootswatch/dist/flatly/bootstrap.min.css";
 import "./App.css";
 
 const stripePromise = loadStripe(
@@ -22,14 +23,20 @@ const CheckoutForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //desde el objeto stripe creo un nuevo metodo de pago
-    const { error, paymentMethod } = await stripe.createPaymentMethod({ //puedes recibir un error o  paymentMethod
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      //puedes recibir un error o  paymentMethod
       type: "card", //tipo tarjeta
       card: elements.getElement(CardElement), //de todos los elements de stripe obtengo o llamo a CardElement
     });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="card card-body">
+      <img
+        src="https://w7.pngwing.com/pngs/976/260/png-transparent-computer-keyboard-bg-teclado-gaming-r-force-macbook-pro-membrane-keyboard-gaming-keypad-force-de-laplace-computer-keyboard-computer-input-device.png"
+        alt="Corsair Gaming Keyboard RGB"
+        className="img-fluid"
+      />
       <CardElement />
       <button>Buy</button>
     </form>
@@ -40,7 +47,13 @@ function App() {
   return (
     <>
       <Elements stripe={stripePromise}>
-        <CheckoutForm />
+        <div className="container p-4">
+          <div className="row">
+            <div className="col-md-4 offset-md-4">
+              <CheckoutForm />
+            </div>
+          </div>
+        </div>
       </Elements>
     </>
   );
