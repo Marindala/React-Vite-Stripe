@@ -28,17 +28,24 @@ const CheckoutForm = () => {
       type: "card", //tipo tarjeta
       card: elements.getElement(CardElement), //de todos los elements de stripe obtengo o llamo a CardElement
     });
+
+    if(!error){
+      console.log(paymentMethod)
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="card card-body">
       <img
-        src="https://w7.pngwing.com/pngs/976/260/png-transparent-computer-keyboard-bg-teclado-gaming-r-force-macbook-pro-membrane-keyboard-gaming-keypad-force-de-laplace-computer-keyboard-computer-input-device.png"
+        src="https://i.pinimg.com/originals/d6/94/09/d694096518e1a580f18c228e19717c86.png"
         alt="Corsair Gaming Keyboard RGB"
         className="img-fluid"
       />
-      <CardElement />
-      <button>Buy</button>
+      <div className="form-group">
+        <CardElement className="form-control"/>
+      </div>
+
+      <button className="btn btn-success">Buy</button>
     </form>
   );
 };
@@ -60,3 +67,4 @@ function App() {
 }
 
 export default App;
+
