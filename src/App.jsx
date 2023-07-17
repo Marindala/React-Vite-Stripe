@@ -1,4 +1,4 @@
-//import { useState } from 'react'
+import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -7,6 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import "bootswatch/dist/flatly/bootstrap.min.css";
+import axios from "axios";
 import "./App.css";
 
 const stripePromise = loadStripe(
@@ -19,6 +20,7 @@ const CheckoutForm = () => {
   //Hook return conection with stripe
   const stripe = useStripe();
   const elements = useElements(); //hook que accede a los elements de stripe//manipula lo que viene de stripe
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +30,29 @@ const CheckoutForm = () => {
       type: "card", //tipo tarjeta
       card: elements.getElement(CardElement), //de todos los elements de stripe obtengo o llamo a CardElement
     });
+    setLoading(true);
 
-    if(!error){
-      const {id} = paymentMethod; //extraigo el id de paymentMethod 
-    } //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id
- 
+    if (!error) {
+      const { id } = paymentMethod; //extraigo el id de paymentMethod //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id por consola...visualizar...
+      try {
+        const { data } = await axios.post(  //solo quiero la propiedad data del  objeto
+          "/api/checkout",
+          {
+            id, //envio id y monto total(amount)
+            amount: 10000, //cents //100 dólares
+          }
+        );
+        console.log(data);
 
+        elements.getElement(CardElement).clear();
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    }
   };
+
+  console.log(!stripe || loading);
 
   return (
     <form onSubmit={handleSubmit} className="card card-body">
@@ -43,8 +61,9 @@ const CheckoutForm = () => {
         alt="Corsair Gaming Keyboard RGB"
         className="img-fluid"
       />
+       <h3 className="text-center my-2">Price: 100$</h3>
       <div className="form-group">
-        <CardElement className="form-control"/>
+        <CardElement className="form-control" />
       </div>
 
       <button className="btn btn-success">Buy</button>
@@ -69,4 +88,3 @@ function App() {
 }
 
 export default App;
-
