@@ -30,8 +30,10 @@ const CheckoutForm = () => {
     });
 
     if(!error){
-      console.log(paymentMethod)
-    }
+      const {id} = paymentMethod; //extraigo el id de paymentMethod 
+    } //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id
+ 
+
   };
 
   return (
