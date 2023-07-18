@@ -10,6 +10,13 @@ import "bootswatch/dist/flatly/bootstrap.min.css";
 import axios from "axios";
 import "./App.css";
 
+//"http://127.0.0.1:5173/api/checkout"
+
+
+ const url = "/api/checkout"; // 
+ 
+
+
 const stripePromise = loadStripe(
   "pk_test_51NTVWGLzLbrIDt2zcA1sj5gjWOi9qY7AicLOx0Ig311DdLvKJiXANQM4ngtla9dawvpKNaJjhj8efHMD9V8TEx1S00Rtxr4SJ5"
 ); //key public in front
@@ -36,7 +43,7 @@ const CheckoutForm = () => {
       const { id } = paymentMethod; //extraigo el id de paymentMethod //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id por consola...visualizar...
       try {
         const { data } = await axios.post(  //solo quiero la propiedad data del  objeto
-          "/api/checkout",
+          `${url}`,
           {
             id, //envio id y monto total(amount)
             amount: 10000, //cents //100 dólares
