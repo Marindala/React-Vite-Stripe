@@ -6,37 +6,29 @@ import  cors from 'cors';
 const app = express()
 
 // Middleware para habilitar CORS
- app.use((req, res, next) => {
+/*  app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
-  }); 
+  });  */
 
-app.use(cors({ origin: "*" }));//para que acepte la info del front
+app.use(cors({ origin: "http://127.0.0.1:5173" }));//para que acepte la info del front
+
 app.use(express.json());
 
 app.post("/api/checkout", async (req, res) => {
-  // you can get more data to find in a database, and so on
-  const { id, amount } = req.body;
-
   try {
-    const payment = await stripe.paymentIntents.create({
-      amount,
-      currency: "USD",
-      description: "Gaming Keyboard",
-      payment_method: id,
-      confirm: true, //confirm the payment at the same time
-    });
+    // Lógica para procesar el pago
 
-    console.log(payment);
-
-    return res.status(200).json({ message: "Successful Payment" });
+    // Si todo está bien, envía una respuesta JSON
+    return res.json({ message: "Pago exitoso" });
   } catch (error) {
     console.log(error);
-    return res.json({ message: error.raw.message });
+    return res.status(500).json({ error: "Hubo un error en el servidor" });
   }
 });
+
 
 
 app.listen(3001, () =>{

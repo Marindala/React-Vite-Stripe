@@ -10,10 +10,10 @@ import "bootswatch/dist/flatly/bootstrap.min.css";
 import axios from "axios";
 import "./App.css";
 
-//"http://127.0.0.1:5173/api/checkout"
 
 
- const url = "/api/checkout"; // 
+
+ const url = "http://localhost:3001/api/checkout"; // 
  
 
 
@@ -42,14 +42,16 @@ const CheckoutForm = () => {
     if (!error) {
       const { id } = paymentMethod; //extraigo el id de paymentMethod //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id por consola...visualizar...
       try {
-        const { data } = await axios.post(  //solo quiero la propiedad data del  objeto
+        const response = await axios.post(  //solo quiero la propiedad data del  objeto
           `${url}`,
           {
             id, //envio id y monto total(amount)
             amount: 10000, //cents //100 dólares
           }
         );
-        console.log(data);
+        const responseData = response.data; 
+        console.log(responseData);
+        //console.log(data);
 
         elements.getElement(CardElement).clear();
       } catch (error) {
