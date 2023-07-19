@@ -42,15 +42,15 @@ const CheckoutForm = () => {
     if (!error) {
       const { id } = paymentMethod; //extraigo el id de paymentMethod //id:"pm_1NUfI2LzLbrIDt2zr7jg7MeC" obtengo ese id por consola...visualizar...
       try {
-        const response = await axios.post(  //solo quiero la propiedad data del  objeto
+        const {data} = await axios.post(  //solo quiero la propiedad data del  objeto
           `${url}`,
           {
             id, //envio id y monto total(amount)
             amount: 10000, //cents //100 dólares
           }
         );
-        const responseData = response.data; 
-        console.log(responseData);
+     
+        console.log(data);
         //console.log(data);
 
         elements.getElement(CardElement).clear();

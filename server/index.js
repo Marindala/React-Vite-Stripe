@@ -1,9 +1,19 @@
 /* impor express = require ('express'); */
-import express from 'express';
-import stripe  from 'stripe';
-import  cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
+import express from 'express';
+import Stripe  from 'stripe';
+import  cors from 'cors';
+//import { env } from 'node:process';
+/* const {
+  API_KEY
+} =process.env; */
+ 
 const app = express()
+
+//stripe("sk_test_51NTVWGLzLbrIDt2zXGv3XtfMDOIQOcHuNJawmu8VMCzzJLRah8hdDb85hZIJr4UzJYwI2clZA1e01ACOAvVgxWzS001CA3MKKs")
+const stripe = new Stripe("sk_test_51NTVWGLzLbrIDt2zXGv3XtfMDOIQOcHuNJawmu8VMCzzJLRah8hdDb85hZIJr4UzJYwI2clZA1e01ACOAvVgxWzS001CA3MKKs")
 
 // Middleware para habilitar CORS
 /*  app.use((req, res, next) => {
@@ -18,16 +28,34 @@ app.use(cors({ origin: "http://127.0.0.1:5173" }));//para que acepte la info del
 app.use(express.json());
 
 app.post("/api/checkout", async (req, res) => {
+  const { id, amount } = req.body;
+
   try {
+    const payment = await stripe.paymentIntents.create({
+      amount,
+      currency: "USD",
+      description: "Gaming Keyboard",
+      payment_method: id,
+      confirm: true, //confirm the payment at the same time
+    });
+
+    console.log(payment);
+
+    return res.status(200).json({ message: "Successful Payment" });
+  } catch (error) {
+    console.log(error);
+    return res.json({ error: "Error in server"  });
+  }
+});
     // Lógica para procesar el pago
 
     // Si todo está bien, envía una respuesta JSON
-    return res.json({ message: "Pago exitoso" });
+ /*    return res.json({ message: "Pago exitoso" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Hubo un error en el servidor" });
   }
-});
+}); */
 
 
 
