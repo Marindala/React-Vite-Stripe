@@ -44,7 +44,7 @@ app.post("/api/checkout", async (req, res) => {
     return res.status(200).json({ message: "Successful Payment" });
   } catch (error) {
     console.log(error);
-    return res.json({ error: "Error in server"  });
+    return res.json({ message: error.raw.message  }); //in objects error
   }
 });
     // Lógica para procesar el pago

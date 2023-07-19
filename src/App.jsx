@@ -53,7 +53,7 @@ const CheckoutForm = () => {
         console.log(data);
         //console.log(data);
 
-        elements.getElement(CardElement).clear();
+        elements.getElement(CardElement).clear(); //en cada evento se limpia el input de la card
       } catch (error) {
         console.log(error);
       }
@@ -75,7 +75,16 @@ const CheckoutForm = () => {
         <CardElement className="form-control" />
       </div>
 
-      <button className="btn btn-success">Buy</button>
+      <button disabled={!stripe} className="btn btn-success">
+      {loading ? (
+          <div className="spinner-border text-light" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : (
+          "Buy"
+        )}
+        
+        </button> {/* si stripe no está disponible se desactiva */}
     </form>
   );
 };
